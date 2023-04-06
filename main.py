@@ -30,6 +30,7 @@ SEED = 3788086447
 SCHEDULER = 'EulerAncestralDiscrete'
 DEVICE = 'cuda'
 CACHE_DIR = './cache'
+DTYPE = torch.float16
 
 # Constant Values
 DEFAULT_PROMPT = [
@@ -53,14 +54,14 @@ SCHEDULERS = {
 # Create Pipeline
 pipe = DiffusionPipeline.from_pretrained(
     pretrained_model_name_or_path=MODEL_ID,
-    torch_dtype=torch.float16,
+    torch_dtype=DTYPE,
     cache_dir=CACHE_DIR,
 )
 
 # Add Scheduler
 pipe.scheduler = SCHEDULERS[SCHEDULER].from_pretrained(
     pretrained_model_name_or_path=MODEL_ID,
-    torch_dtype=torch.float16,
+    torch_dtype=DTYPE,
     cache_dir=CACHE_DIR,
     subfolder='scheduler'
 )
@@ -68,7 +69,7 @@ pipe.scheduler = SCHEDULERS[SCHEDULER].from_pretrained(
 # Add Vae
 pipe.vae = AutoencoderKL.from_pretrained(
     pretrained_model_name_or_path=VAE_MODEL_ID,
-    torch_dtype=torch.float16,
+    torch_dtype=DTYPE,
     cache_dir=CACHE_DIR,
 )
 
